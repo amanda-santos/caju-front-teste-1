@@ -1,5 +1,5 @@
 import * as S from "./styles";
-import RegistrationCard from "../RegistrationCard";
+import { RegistrationCard } from "../RegistrationCard";
 import { Registration, RegistrationStatus } from "~/types/Registration";
 
 const allColumns = [
