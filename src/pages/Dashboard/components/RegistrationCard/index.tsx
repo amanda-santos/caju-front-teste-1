@@ -7,21 +7,33 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi";
 import { Registration, RegistrationStatus } from "~/types/Registration";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteRegistration } from "~/api/deleteRegistration";
 
 type RegistrationCardProps = {
-  data: Pick<
-    Registration,
-    "employeeName" | "email" | "admissionDate" | "status"
-  >;
+  data: Registration;
 };
 
 export const RegistrationCard = ({
-  data: { admissionDate, email, employeeName, status },
+  data: { admissionDate, email, employeeName, status, id },
 }: RegistrationCardProps) => {
   const isRegistrationReviewed =
     status === RegistrationStatus.Approved ||
     status === RegistrationStatus.Reproved;
   const isRegistrationPending = status === RegistrationStatus.Review;
+
+  const queryClient = useQueryClient();
+
+  const { mutate: onDeleteRegistration } = useMutation({
+    mutationFn: deleteRegistration,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["registrations"] });
+    },
+  });
+
+  const handleDeleteRegistration = () => {
+    onDeleteRegistration(id);
+  };
 
   return (
     <S.Card>
@@ -47,7 +59,9 @@ export const RegistrationCard = ({
         {isRegistrationReviewed && (
           <ButtonSmall bgcolor="#ff8858">Revisar novamente</ButtonSmall>
         )}
-        <HiOutlineTrash />
+        <S.DeleteButton type="button" onClick={handleDeleteRegistration}>
+          <HiOutlineTrash />
+        </S.DeleteButton>
       </S.Actions>
     </S.Card>
   );
