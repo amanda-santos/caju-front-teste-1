@@ -4,17 +4,9 @@
       "admissionDate": "22/10/2023",
       "email": "luiz@caju.com.br",
       "employeeName": "Luiz Filho",
-      "status": "approved",
+      "status": "reproved",
       "cpf": "56642105087",
       "id": "3"
-    },
-    {
-      "id": "1",
-      "admissionDate": "22/10/2023",
-      "email": "filipe@caju.com.br",
-      "employeeName": "Filipe Marins",
-      "status": "review",
-      "cpf": "78502270001"
     },
     {
       "id": "2",

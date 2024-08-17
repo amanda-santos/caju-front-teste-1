@@ -9,20 +9,27 @@ import {
 import { Registration, RegistrationStatus } from "~/types/Registration";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteRegistration } from "~/api/deleteRegistration";
+import { updateRegistration } from "~/api/updateRegistration";
 
 type RegistrationCardProps = {
-  data: Registration;
+  registration: Registration;
 };
 
-export const RegistrationCard = ({
-  data: { admissionDate, email, employeeName, status, id },
-}: RegistrationCardProps) => {
+export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
   const isRegistrationReviewed =
-    status === RegistrationStatus.Approved ||
-    status === RegistrationStatus.Reproved;
-  const isRegistrationPending = status === RegistrationStatus.Review;
+    registration.status === RegistrationStatus.Approved ||
+    registration.status === RegistrationStatus.Reproved;
+  const isRegistrationPending =
+    registration.status === RegistrationStatus.Review;
 
   const queryClient = useQueryClient();
+
+  const { mutate: onUpdateRegistration } = useMutation({
+    mutationFn: updateRegistration,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["registrations"] });
+    },
+  });
 
   const { mutate: onDeleteRegistration } = useMutation({
     mutationFn: deleteRegistration,
@@ -31,33 +38,58 @@ export const RegistrationCard = ({
     },
   });
 
+  const handleUpdateRegistrationStatus = (newStatus: RegistrationStatus) => {
+    onUpdateRegistration({ ...registration, status: newStatus });
+  };
+
   const handleDeleteRegistration = () => {
-    onDeleteRegistration(id);
+    onDeleteRegistration(registration.id);
   };
 
   return (
     <S.Card>
       <S.IconAndText>
         <HiOutlineUser />
-        <h3>{employeeName}</h3>
+        <h3>{registration.employeeName}</h3>
       </S.IconAndText>
       <S.IconAndText>
         <HiOutlineMail />
-        <p>{email}</p>
+        <p>{registration.email}</p>
       </S.IconAndText>
       <S.IconAndText>
         <HiOutlineCalendar />
-        <span>{admissionDate}</span>
+        <span>{registration.admissionDate}</span>
       </S.IconAndText>
       <S.Actions>
         {isRegistrationPending && (
           <>
-            <ButtonSmall bgcolor="rgb(255, 145, 154)">Reprovar</ButtonSmall>
-            <ButtonSmall bgcolor="rgb(155, 229, 155)">Aprovar</ButtonSmall>
+            <ButtonSmall
+              bgcolor="rgb(255, 145, 154)"
+              onClick={() =>
+                handleUpdateRegistrationStatus(RegistrationStatus.Reproved)
+              }
+            >
+              Reprovar
+            </ButtonSmall>
+            <ButtonSmall
+              bgcolor="rgb(155, 229, 155)"
+              onClick={() =>
+                handleUpdateRegistrationStatus(RegistrationStatus.Approved)
+              }
+            >
+              Aprovar
+            </ButtonSmall>
           </>
         )}
         {isRegistrationReviewed && (
-          <ButtonSmall bgcolor="#ff8858">Revisar novamente</ButtonSmall>
+          <ButtonSmall
+            bgcolor="#ff8858"
+            onClick={() =>
+              handleUpdateRegistrationStatus(RegistrationStatus.Review)
+            }
+          >
+            Revisar novamente
+          </ButtonSmall>
         )}
         <S.DeleteButton type="button" onClick={handleDeleteRegistration}>
           <HiOutlineTrash />
