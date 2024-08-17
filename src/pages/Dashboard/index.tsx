@@ -1,13 +1,19 @@
-import Collumns from "./components/Columns";
+import { Columns } from "./components/Columns";
 import * as S from "./styles";
 import { SearchBar } from "./components/Searchbar";
+import { getRegistrations } from "~/api/getRegistrations";
+import { useQuery } from "@tanstack/react-query";
 
-const DashboardPage = () => {
+export const DashboardPage = () => {
+  const { data: registrations } = useQuery({
+    queryKey: ["registrations"],
+    queryFn: getRegistrations,
+  });
+
   return (
     <S.Container>
       <SearchBar />
-      <Collumns registrations={[]} />
+      <Columns registrations={registrations} />
     </S.Container>
   );
 };
-export default DashboardPage;
