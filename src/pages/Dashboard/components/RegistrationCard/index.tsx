@@ -65,33 +65,41 @@ export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
       <S.Actions>
         {isRegistrationPending && (
           <>
-            <SmallButton
-              bgcolor="rgb(255, 145, 154)"
-              onClick={() =>
+            <Dialog
+              title="Reprovar registro"
+              description="Tem certeza de que deseja reprovar este registro?"
+              submitLabel="Reprovar"
+              onSubmit={() =>
                 handleUpdateRegistrationStatus(RegistrationStatus.Reproved)
               }
             >
-              Reprovar
-            </SmallButton>
-            <SmallButton
-              bgcolor="rgb(155, 229, 155)"
-              onClick={() =>
+              <SmallButton bgcolor="rgb(255, 145, 154)">Reprovar</SmallButton>
+            </Dialog>
+
+            <Dialog
+              title="Aprovar registro"
+              description="Tem certeza de que deseja aprovar este registro?"
+              submitLabel="Aprovar"
+              onSubmit={() =>
                 handleUpdateRegistrationStatus(RegistrationStatus.Approved)
               }
             >
-              Aprovar
-            </SmallButton>
+              <SmallButton bgcolor="rgb(155, 229, 155)">Aprovar</SmallButton>
+            </Dialog>
           </>
         )}
+
         {isRegistrationReviewed && (
-          <SmallButton
-            bgcolor="#ff8858"
-            onClick={() =>
+          <Dialog
+            title="Revisar registro novamente"
+            description="Tem certeza de que deseja revisar este registro novamente?"
+            submitLabel="Revisar novamente"
+            onSubmit={() =>
               handleUpdateRegistrationStatus(RegistrationStatus.Review)
             }
           >
-            Revisar novamente
-          </SmallButton>
+            <SmallButton bgcolor="#ff8858">Revisar novamente</SmallButton>
+          </Dialog>
         )}
 
         <Dialog
