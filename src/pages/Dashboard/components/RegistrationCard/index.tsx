@@ -1,4 +1,4 @@
-import { ButtonSmall } from "~/components/Buttons";
+import { SmallButton } from "~/components/Buttons";
 import * as S from "./styles";
 import {
   HiOutlineMail,
@@ -64,33 +64,33 @@ export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
       <S.Actions>
         {isRegistrationPending && (
           <>
-            <ButtonSmall
+            <SmallButton
               bgcolor="rgb(255, 145, 154)"
               onClick={() =>
                 handleUpdateRegistrationStatus(RegistrationStatus.Reproved)
               }
             >
               Reprovar
-            </ButtonSmall>
-            <ButtonSmall
+            </SmallButton>
+            <SmallButton
               bgcolor="rgb(155, 229, 155)"
               onClick={() =>
                 handleUpdateRegistrationStatus(RegistrationStatus.Approved)
               }
             >
               Aprovar
-            </ButtonSmall>
+            </SmallButton>
           </>
         )}
         {isRegistrationReviewed && (
-          <ButtonSmall
+          <SmallButton
             bgcolor="#ff8858"
             onClick={() =>
               handleUpdateRegistrationStatus(RegistrationStatus.Review)
             }
           >
             Revisar novamente
-          </ButtonSmall>
+          </SmallButton>
         )}
         <S.DeleteButton type="button" onClick={handleDeleteRegistration}>
           <HiOutlineTrash />

@@ -1,6 +1,6 @@
 import { TextField } from "~/components/TextField";
 import * as S from "./styles";
-import Button from "~/components/Buttons";
+import { Button, IconButton } from "~/components/Buttons";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { useHistory } from "react-router-dom";
 import routes from "~/router/routes";
@@ -11,7 +11,6 @@ import { createRegistration } from "~/api/createRegistration";
 import { RegistrationStatus } from "~/types/Registration";
 import { UserFormFields } from "./types/UserFormFields";
 import { USER_FORM_SCHEMA } from "./constants/userFormSchema";
-import { IconButton } from "~/components/Buttons/IconButton";
 
 export const NewUserPage = () => {
   const history = useHistory();
