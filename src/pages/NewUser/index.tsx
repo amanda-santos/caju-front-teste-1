@@ -8,6 +8,9 @@ import routes from "~/router/routes";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createRegistration } from "~/api/createRegistration";
+import { RegistrationStatus } from "~/types/Registration";
 
 function validateCPF(cpf: string) {
   cpf = cpf.replace(/[^\d]+/g, ""); // Remove non-numeric characters
@@ -37,12 +40,12 @@ function validateCPF(cpf: string) {
 }
 
 const userFormSchema = z.object({
-  name: z
+  employeeName: z
     .string()
     .trim()
     .min(3, "O nome deve possuir no mínimo 3 caracteres.")
     .regex(
-      /^[A-Za-z][A-Za-z]* [A-Za-z\s]*$/,
+      /^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ\s]* [A-Za-zÀ-ÖØ-öø-ÿ\s]*$/,
       "Por favor, insira um nome válido."
     ),
   email: z.string().email("Por favor, insira um email válido."),
@@ -66,10 +69,20 @@ export const NewUserPage = () => {
   } = useForm<UserFormFields>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
-      name: "",
+      employeeName: "",
       email: "",
       cpf: "",
       admissionDate: "",
+    },
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutate: onCreateRegistration } = useMutation({
+    mutationFn: createRegistration,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["registrations"] });
+      goToHome();
     },
   });
 
@@ -77,11 +90,12 @@ export const NewUserPage = () => {
     history.push(routes.dashboard);
   };
 
-  const onSubmit = (data: UserFormFields) => {
-    console.log(data);
+  const onSubmit = (user: UserFormFields) => {
+    onCreateRegistration({
+      ...user,
+      status: RegistrationStatus.Review,
+    });
   };
-
-  console.log(errors);
 
   return (
     <S.Container>
@@ -93,8 +107,8 @@ export const NewUserPage = () => {
         <TextField
           placeholder="Nome"
           label="Nome"
-          error={errors.name?.message}
-          {...register("name")}
+          error={errors.employeeName?.message}
+          {...register("employeeName")}
         />
         <TextField
           placeholder="Email"
@@ -110,14 +124,13 @@ export const NewUserPage = () => {
           error={errors.cpf?.message}
           {...register("cpf")}
         />
-        {/* <InputMask mask="999.999.999-99" {...register("cpf")} /> */}
-        {/* {errors.cpf && <p>{errors.cpf.message}</p>} */}
         <TextField
           label="Data de admissão"
           type="date"
           error={errors.admissionDate?.message}
           {...register("admissionDate")}
         />
+
         <Button onClick={handleSubmit(onSubmit)}>Cadastrar</Button>
       </S.Card>
     </S.Container>
