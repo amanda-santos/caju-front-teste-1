@@ -10,6 +10,7 @@ import { Registration, RegistrationStatus } from "~/types/Registration";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteRegistration } from "~/api/deleteRegistration";
 import { updateRegistration } from "~/api/updateRegistration";
+import { formatDate } from "./helpers/formatDate";
 
 type RegistrationCardProps = {
   registration: Registration;
@@ -58,7 +59,7 @@ export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
       </S.IconAndText>
       <S.IconAndText>
         <HiOutlineCalendar />
-        <span>{registration.admissionDate}</span>
+        <span>{formatDate(registration.admissionDate)}</span>
       </S.IconAndText>
       <S.Actions>
         {isRegistrationPending && (

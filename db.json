@@ -31,6 +31,22 @@
       "cpf": "888.888.888-88",
       "admissionDate": "2024-05-05",
       "status": "approved"
+    },
+    {
+      "id": "c7d6",
+      "employeeName": "Maria Silva",
+      "email": "mariasilva@hotmail.com",
+      "cpf": "777.777.777-77",
+      "admissionDate": "2010-08-31",
+      "status": "approved"
+    },
+    {
+      "id": "cf14",
+      "employeeName": "José Souza",
+      "email": "josesouza@gmail.com",
+      "cpf": "666.666.666-66",
+      "admissionDate": "2024-07-10",
+      "status": "reproved"
     }
   ]
 }
