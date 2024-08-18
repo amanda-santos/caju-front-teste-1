@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteRegistration } from "~/api/deleteRegistration";
 import { updateRegistration } from "~/api/updateRegistration";
 import { formatDate } from "./helpers/formatDate";
+import { Dialog } from "~/components/Dialog";
 
 type RegistrationCardProps = {
   registration: Registration;
@@ -92,9 +93,17 @@ export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
             Revisar novamente
           </SmallButton>
         )}
-        <S.DeleteButton type="button" onClick={handleDeleteRegistration}>
-          <HiOutlineTrash />
-        </S.DeleteButton>
+
+        <Dialog
+          title="Deletar registro"
+          description="Tem certeza de que deseja deletar este registro?"
+          submitLabel="Deletar"
+          onSubmit={handleDeleteRegistration}
+        >
+          <S.DeleteButton type="button">
+            <HiOutlineTrash />
+          </S.DeleteButton>
+        </Dialog>
       </S.Actions>
     </S.Card>
   );
