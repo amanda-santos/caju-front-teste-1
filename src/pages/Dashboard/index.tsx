@@ -14,6 +14,7 @@ export const DashboardPage = () => {
     <S.Container>
       <SearchBar />
       <Columns registrations={registrations} />
+      <S.ToastViewport />
     </S.Container>
   );
 };

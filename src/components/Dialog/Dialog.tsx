@@ -1,7 +1,7 @@
 import { SmallButton } from "~/components/Buttons";
 import * as S from "./styles";
 import * as RadixDialog from "@radix-ui/react-dialog";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
 type DialogProps = PropsWithChildren<{
   title: string;

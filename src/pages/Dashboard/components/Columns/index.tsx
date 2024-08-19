@@ -1,6 +1,8 @@
 import * as S from "./styles";
 import { RegistrationCard } from "../RegistrationCard";
 import { Registration, RegistrationStatus } from "~/types/Registration";
+import { useState } from "react";
+import { Toast, ToastProps } from "~/components/Toast";
 
 const allColumns = [
   { status: RegistrationStatus.Review, title: "Pronto para revisar" },
@@ -13,6 +15,22 @@ type ColumnsProps = {
 };
 
 export const Columns = (props: ColumnsProps) => {
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [toastProps, setToastProps] = useState<
+    Pick<ToastProps, "title" | "description" | "type">
+  >({
+    title: "",
+    description: "",
+    type: "success",
+  });
+
+  const handleShowToast = (
+    toastProps: Pick<ToastProps, "title" | "description" | "type">
+  ) => {
+    setIsToastOpen(true);
+    setToastProps(toastProps);
+  };
+
   return (
     <S.Container>
       {allColumns.map((column) => {
@@ -32,6 +50,7 @@ export const Columns = (props: ColumnsProps) => {
                       <RegistrationCard
                         registration={registration}
                         key={registration.id}
+                        onShowToast={handleShowToast}
                       />
                     );
                   })}
@@ -40,6 +59,12 @@ export const Columns = (props: ColumnsProps) => {
           </S.Column>
         );
       })}
+
+      <Toast
+        isOpen={isToastOpen}
+        onOpenChange={setIsToastOpen}
+        {...toastProps}
+      />
     </S.Container>
   );
 };

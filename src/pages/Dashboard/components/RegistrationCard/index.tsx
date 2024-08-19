@@ -12,12 +12,19 @@ import { deleteRegistration } from "~/api/deleteRegistration";
 import { updateRegistration } from "~/api/updateRegistration";
 import { formatDate } from "./helpers/formatDate";
 import { Dialog } from "~/components/Dialog";
+import { ToastProps } from "~/components/Toast";
 
 type RegistrationCardProps = {
   registration: Registration;
+  onShowToast: (
+    toastProps: Pick<ToastProps, "title" | "description" | "type">
+  ) => void;
 };
 
-export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
+export const RegistrationCard = ({
+  registration,
+  onShowToast,
+}: RegistrationCardProps) => {
   const isRegistrationReviewed =
     registration.status === RegistrationStatus.Approved ||
     registration.status === RegistrationStatus.Reproved;
@@ -29,15 +36,37 @@ export const RegistrationCard = ({ registration }: RegistrationCardProps) => {
   const { mutate: onUpdateRegistration } = useMutation({
     mutationFn: updateRegistration,
     onSuccess: () => {
+      onShowToast({
+        title: "Registro atualizado com sucesso",
+        description: "O registro foi atualizado com sucesso",
+        type: "success",
+      });
       queryClient.invalidateQueries({ queryKey: ["registrations"] });
     },
+    onError: () =>
+      onShowToast({
+        title: "Erro ao atualizar o registro",
+        description: "Por favor, tente novamente",
+        type: "error",
+      }),
   });
 
   const { mutate: onDeleteRegistration } = useMutation({
     mutationFn: deleteRegistration,
     onSuccess: () => {
+      onShowToast({
+        title: "Registro excluído com sucesso",
+        description: "O registro foi excluído com sucesso",
+        type: "success",
+      });
       queryClient.invalidateQueries({ queryKey: ["registrations"] });
     },
+    onError: () =>
+      onShowToast({
+        title: "Erro ao excluir o registro",
+        description: "Por favor, tente novamente",
+        type: "error",
+      }),
   });
 
   const handleUpdateRegistrationStatus = (newStatus: RegistrationStatus) => {
