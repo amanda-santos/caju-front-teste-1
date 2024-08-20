@@ -11,15 +11,12 @@ import { createRegistration } from "~/api/createRegistration";
 import { RegistrationStatus } from "~/types/Registration";
 import { UserFormFields } from "./types/UserFormFields";
 import { USER_FORM_SCHEMA } from "./constants/userFormSchema";
+import { removeSpecialCharacters } from "../../helpers";
 
 export const NewUserPage = () => {
   const history = useHistory();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserFormFields>({
+  const { register, handleSubmit, formState } = useForm<UserFormFields>({
     resolver: zodResolver(USER_FORM_SCHEMA),
     defaultValues: {
       employeeName: "",
@@ -46,6 +43,7 @@ export const NewUserPage = () => {
   const onSubmit = (user: UserFormFields) => {
     onCreateRegistration({
       ...user,
+      cpf: removeSpecialCharacters(user.cpf),
       status: RegistrationStatus.Review,
     });
   };
@@ -60,27 +58,27 @@ export const NewUserPage = () => {
         <TextField
           placeholder="Nome"
           label="Nome"
-          error={errors.employeeName?.message}
+          error={formState.errors.employeeName?.message}
           {...register("employeeName")}
         />
         <TextField
           placeholder="Email"
           label="Email"
           type="email"
-          error={errors.email?.message}
+          error={formState.errors.email?.message}
           {...register("email")}
         />
         <TextField
           placeholder="CPF"
           label="CPF"
           mask="999.999.999-99"
-          error={errors.cpf?.message}
+          error={formState.errors.cpf?.message}
           {...register("cpf")}
         />
         <TextField
           label="Data de admissão"
           type="date"
-          error={errors.admissionDate?.message}
+          error={formState.errors.admissionDate?.message}
           {...register("admissionDate")}
         />
 

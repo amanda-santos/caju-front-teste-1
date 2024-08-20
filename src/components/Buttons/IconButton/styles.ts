@@ -14,4 +14,13 @@ export const IconButton = styled.button`
   svg {
     color: #64a98c;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    border: 2px solid #ccc;
+
+    svg {
+      color: #ccc;
+    }
+  }
 `;

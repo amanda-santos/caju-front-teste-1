@@ -13,23 +13,15 @@
       "admissionDate": "22/10/2023",
       "email": "jose@caju.com.br",
       "employeeName": "José Leão",
-      "status": "approved",
+      "status": "review",
       "cpf": "78502270001"
     },
     {
-      "id": "f1ca",
-      "employeeName": "Amanda Santos",
-      "email": "amaanda5652@gmail.com",
-      "cpf": "999.999.999-99",
-      "admissionDate": "2024-01-01",
-      "status": "review"
-    },
-    {
-      "id": "cf14",
-      "employeeName": "José Souza",
-      "email": "josesouza@gmail.com",
-      "cpf": "666.666.666-66",
-      "admissionDate": "2024-07-10",
+      "id": "e11f",
+      "employeeName": "João Silva",
+      "email": "joaosilva@gmail.com",
+      "cpf": "99999999999",
+      "admissionDate": "2010-10-10",
       "status": "approved"
     }
   ]

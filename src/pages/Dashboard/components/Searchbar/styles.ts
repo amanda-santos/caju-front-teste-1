@@ -7,6 +7,12 @@ export const Container = styled.div`
   gap: 16px;
 `;
 
+export const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+`;
+
 export const Actions = styled.div`
   display: flex;
   justify-content: flex-end;
